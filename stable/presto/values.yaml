@@ -35,7 +35,7 @@ image:
     runAsGroup: 1000
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
