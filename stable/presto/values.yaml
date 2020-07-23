@@ -1,14 +1,14 @@
 server:
-  workers: 2
+  workers: 3
   node:
     environment: production
-    dataDir: /data/presto
-    pluginDir: /usr/lib/presto/plugin
+    dataDir: /presto/data
+    pluginDir: /presto/plugin
   log:
     presto:
-      level: INFO
+      level: DEBUG
   config:
-    path: /usr/lib/presto/etc
+    path: /presto/etc
     http:
       port: 8080
     query:
@@ -21,14 +21,16 @@ server:
       g1:
         heapRegionSize: "32M"
   catalog:
-    # Provide secret name to populate the catalog folder
-    secretName:
-    # Use inline properties file contents to populate the catalog folder
     data:
+      pulsar.properties: |
+        connector.name=pulsar
+        pulsar.broker-service-url=http://pulsar-1-broker.pulsar-1.svc.cluster.local:8080
+        pulsar.zookeeper-uri=pulsar-1-zookeeper.pulsar-1.svc.cluster.local:2181
+        pulsar.target-num-splits=4
 
 image:
-  repository: prestosql/presto
-  tag: 329
+  repository: oginskis/prestodb
+  tag: 0.206
   pullPolicy: IfNotPresent
   securityContext:
     runAsUser: 1000
